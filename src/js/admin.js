@@ -8,46 +8,35 @@
 const {
     i18n: {
         __,
-        sprintf
     },
     hooks: {
         addFilter
     },
     components: {
         Placeholder,
-        ToggleControl,
         Card,
         CardHeader,
         CardBody,
         Spinner,
-        Icon,
-        Dashicon,
         Button,
-        Tooltip,
-        Popover,
         TextControl,
         BaseControl,
         ColorPicker,
         RangeControl,
         DropdownMenu,
         SelectControl,
+        ToggleControl,
         ColorIndicator,
-        FormFileUpload,
-        useBaseControlProps,
         __experimentalHStack: HStack,
         __experimentalNumberControl: NumberControl,
         __experimentalBorderBoxControl: BorderBoxControl,
     },
-    blockEditor: {
-        MediaUpload,
-        MediaUploadCheck,
-    },
     element: {
         useState,
-        useEffect,
-        useRef
     }
 } = wp;
+
+import { CustomIconsControl, PreviewButton } from './admin/Components';
 
 addFilter('wecodeart.admin.tabs.plugins', 'wecodeart/scrolltop/admin/panel', optionsPanel);
 function optionsPanel(panels) {
@@ -69,10 +58,9 @@ const Options = (props) => {
         }} />;
     }
 
-    const [loading, setLoading] = useState(null);
     const apiOptions = (({ scrolltop }) => (scrolltop))(settings);
+    const [loading, setLoading] = useState(null);
     const [formData, setFormData] = useState(apiOptions);
-    const [disabledButton, setDisabledButton] = useState(true);
 
     const setStyle = (extra = {}) => {
         const newStyle = { ...formData?.style, ...extra };
@@ -86,147 +74,6 @@ const Options = (props) => {
         return createNotice('success', __('Settings saved.', 'wca-scrolltop'));
     };
 
-    const capitalizeFirstLetter = word => `${word.charAt(0).toUpperCase()}${word.slice(1)}`;
-
-    const generateStyles = ({
-        position,
-        style: {
-            padding,
-            border = {},
-            borderRadius,
-            opacity,
-            width,
-            height,
-            left = 'initial',
-            right = 'initial',
-            bottom = 0,
-            backgroundColor = 'transparent',
-            color = 'inherit',
-        } = {}
-    } = {}) => {
-        let style = {
-            zIndex: disabledButton ? -1 : 5,
-            bottom,
-            width,
-            height,
-            padding,
-            color,
-            borderRadius,
-            backgroundColor,
-            opacity: disabledButton ? 0 : `${opacity}%`,
-            left: position === 'left' ? left : 'initial',
-            right: position === 'right' ? right : 'initial',
-            transition: 'all .3s ease-in-out'
-        }
-
-        let borderStyles = {};
-        const borderKeys = Object.keys(border);
-        const sides = ['top', 'left', 'right', 'bottom'];
-        const hasBorderMultiple = sides.some(side => borderKeys.includes(side));
-
-        if (hasBorderMultiple) {
-            for (const dir in border) {
-                const dirStyles = border[dir];
-                borderStyles = { ...borderStyles, [`border${capitalizeFirstLetter(dir)}`]: Object.values(dirStyles).join(' ') }
-            }
-        } else {
-            borderStyles = { border: Object.values(border).join(' ') };
-        }
-
-        style = { ...style, ...borderStyles };
-
-        return style;
-    };
-
-    const IconPathsControl = (props) => {
-        const { baseControlProps, controlProps } = useBaseControlProps(props);
-        const { disabled } = baseControlProps;
-
-        const items = formData?.icon.paths || ['M15 2a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2zM0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm8.5 9.5a.5.5 0 0 1-1 0V5.707L5.354 7.854a.5.5 0 1 1-.708-.708l3-3a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 5.707V11.5z'];
-
-        const addItem = () => {
-            const updatedItems = [...items, ''];
-            setFormData({
-                ...formData, icon: {
-                    ...formData?.icon,
-                    paths: updatedItems
-                }
-            });
-        };
-
-        const removeItem = (index) => {
-            const updatedItems = [...items];
-            updatedItems.splice(index, 1);
-            setFormData({
-                ...formData, icon: {
-                    ...formData?.icon,
-                    paths: updatedItems
-                }
-            });
-        };
-
-        const updateItem = (index, value) => {
-            const updatedItems = [...items];
-            updatedItems[index] = value;
-            setFormData({
-                ...formData, icon: {
-                    ...formData?.icon,
-                    paths: updatedItems.filter()
-                }
-            });
-        };
-
-        const [viewBox, setViewBox] = useState(formData?.icon?.viewBox);
-
-        return (
-            <BaseControl {...baseControlProps} >
-                <p>
-                    <HStack style={{ alignItems: 'stretch' }}>
-                        <TextControl {...controlProps} disabled={disabled} className="flex-grow-1" placeholder={__('ViewBox', 'wca-scrolltop')} value={viewBox} onChange={setViewBox} />
-                        <Button disabled={disabled} style={{ height: 'initial' }} isSecondary isSmall onClick={() => {
-                            setFormData({
-                                ...formData, icon: {
-                                    ...formData?.icon,
-                                    viewBox
-                                }
-                            });
-                        }} showTooltip>
-                            {__('Update SVG viewBox', 'wca-scrolltop')}
-                        </Button>
-                    </HStack>
-                </p>
-                <p>
-                    {items.map((item, index) => (
-                        <p style={{ marginTop: 0 }}>
-                            <HStack key={index} style={{ alignItems: 'stretch' }}>
-                                <TextControl {...controlProps} disabled={disabled} className="flex-grow-1" placeholder={__('Path', 'wca-scrolltop')} value={item} onChange={(value) => updateItem(index, value)} />
-                                {index !== 0 &&
-                                    <Button disabled={disabled} style={{ height: 'initial' }} isDestructive isSmall onClick={() => removeItem(index)}>
-                                        <Dashicon icon="no" />
-                                    </Button>
-                                }
-                            </HStack>
-                        </p>
-                    ))}
-                </p>
-                <Button disabled={disabled} isPrimary onClick={addItem}>{__('Add Path', 'wca-scrolltop')}</Button>
-            </BaseControl>
-        );
-    };
-
-    useEffect(() => {
-        const handleScroll = () => {
-            const currentPosition = window.scrollY;
-            setDisabledButton(currentPosition < formData?.scroll?.offset);
-        };
-
-        window.addEventListener('scroll', handleScroll);
-
-        return () => {
-            window.removeEventListener('scroll', handleScroll);
-        };
-    }, [formData?.scroll?.offset]);
-
     return (
         <>
             <div className="grid" style={{ '--wca--columns': 2 }}>
@@ -237,7 +84,8 @@ const Options = (props) => {
                         </CardHeader>
                         <CardBody style={{ color: 'rgb(30, 30, 30)' }}>
                             <p>
-                                <IconPathsControl
+                                <CustomIconsControl
+                                    {...{ formData, setFormData }}
                                     label={__('Icon', 'wca-scrolltop')}
                                     help={__('Use simple icons like FontAwesome or Bootstrap. Each icon can have 1 or more path elements.', 'wca-scrolltop')}
                                 />
@@ -380,6 +228,13 @@ const Options = (props) => {
                                     min={0}
                                 />
                             </p>
+                            <p>
+                                <ToggleControl
+                                    label={__('Hover Styles (soon)', 'wca-scrolltop')}
+                                    value={false}
+                                    disabled={true}
+                                />
+                            </p>
                         </CardBody>
                     </Card>
                 </div>
@@ -480,21 +335,7 @@ const Options = (props) => {
                     </Card>
                 </div>
             </div>
-            <Tooltip text={__('Preview', 'wca-scrolltop')}>
-                <Button className={`position-fixed${formData?.classes ? ' ' + formData.classes : ''}`} style={generateStyles(formData)}>
-                    <Icon icon={() => {
-                        return (
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox={formData?.icon?.viewBox || '0 0 16 16'}>
-                                {formData?.icon?.paths.map(el => {
-                                    return (
-                                        <path fill="currentColor" d={el} />
-                                    );
-                                })}
-                            </svg>
-                        )
-                    }} />
-                </Button>
-            </Tooltip>
+            <PreviewButton {...{ formData }} />
             <hr style={{ margin: '20px 0' }} />
             <Button
                 className="button"

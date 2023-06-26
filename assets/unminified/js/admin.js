@@ -2,6 +2,291 @@
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
+/***/ "./src/js/admin/Components.js":
+/*!************************************!*\
+  !*** ./src/js/admin/Components.js ***!
+  \************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "CustomIconsControl": () => (/* binding */ CustomIconsControl),
+/* harmony export */   "PreviewButton": () => (/* binding */ PreviewButton)
+/* harmony export */ });
+/* harmony import */ var _babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/extends */ "./node_modules/@babel/runtime/helpers/esm/extends.js");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _functions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./functions */ "./src/js/admin/functions.js");
+
+
+const {
+  i18n: {
+    __
+  },
+  components: {
+    Dashicon,
+    Button,
+    Tooltip,
+    Icon,
+    TextControl,
+    BaseControl,
+    useBaseControlProps,
+    __experimentalHStack: HStack
+  },
+  element: {
+    useState,
+    useEffect
+  }
+} = wp;
+
+/**
+ * Custom Icons 
+ */
+
+const CustomIconsControl = _ref => {
+  let {
+    formData,
+    setFormData,
+    ...restProps
+  } = _ref;
+  const {
+    baseControlProps,
+    controlProps
+  } = useBaseControlProps(restProps);
+  const {
+    disabled
+  } = baseControlProps;
+  const [viewBox, setViewBox] = useState(formData?.icon?.viewBox || '0 0 16 16');
+  const items = formData?.icon.paths || ['M15 2a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2zM0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm8.5 9.5a.5.5 0 0 1-1 0V5.707L5.354 7.854a.5.5 0 1 1-.708-.708l3-3a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 5.707V11.5z'];
+
+  const addItem = () => {
+    const updatedItems = [...items, ''];
+    setFormData({ ...formData,
+      icon: { ...formData.icon,
+        paths: updatedItems
+      }
+    });
+  };
+
+  const removeItem = index => {
+    const updatedItems = [...items];
+    updatedItems.splice(index, 1);
+    setFormData({ ...formData,
+      icon: { ...formData.icon,
+        paths: updatedItems
+      }
+    });
+  };
+
+  const updateItem = (index, value) => {
+    const updatedItems = [...items];
+    updatedItems[index] = value;
+    setFormData({ ...formData,
+      icon: { ...formData.icon,
+        paths: updatedItems
+      }
+    });
+  };
+
+  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(BaseControl, baseControlProps, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("p", {
+    style: {
+      marginTop: 0
+    }
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(HStack, {
+    style: {
+      alignItems: 'stretch'
+    }
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(TextControl, (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({}, controlProps, {
+    disabled: disabled,
+    className: "flex-grow-1",
+    placeholder: __('ViewBox', 'wca-scrolltop'),
+    value: viewBox,
+    onChange: setViewBox
+  })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(Button, {
+    disabled: disabled,
+    style: {
+      height: 'initial'
+    },
+    isSecondary: true,
+    isSmall: true,
+    onClick: () => {
+      setFormData({ ...formData,
+        icon: { ...formData.icon,
+          viewBox
+        }
+      });
+    },
+    showTooltip: true
+  }, __('Update SVG viewBox', 'wca-scrolltop')))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("p", {
+    style: {
+      marginTop: 0
+    }
+  }, items.map((item, index) => (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("p", {
+    style: {
+      marginTop: 0
+    }
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(HStack, {
+    key: index,
+    style: {
+      alignItems: 'stretch'
+    }
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(TextControl, (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({}, controlProps, {
+    disabled: disabled,
+    className: "flex-grow-1",
+    placeholder: __('Path', 'wca-scrolltop'),
+    value: item,
+    onChange: value => updateItem(index, value)
+  })), index !== 0 && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(Button, {
+    disabled: disabled,
+    style: {
+      height: 'initial'
+    },
+    isDestructive: true,
+    isSmall: true,
+    onClick: () => removeItem(index)
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(Dashicon, {
+    icon: "no"
+  })))))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(Button, {
+    disabled: disabled,
+    isPrimary: true,
+    onClick: addItem
+  }, __('Add Path', 'wca-scrolltop')));
+};
+/**
+ * Custom Icons 
+ */
+
+
+const PreviewButton = _ref2 => {
+  let {
+    formData
+  } = _ref2;
+  const {
+    icon: {
+      viewBox = '0 0 16 16',
+      paths = ['M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8zm15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-7.5 3.5a.5.5 0 0 1-1 0V5.707L5.354 7.854a.5.5 0 1 1-.708-.708l3-3a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 5.707V11.5z']
+    } = {},
+    scroll: {
+      offset = 0
+    } = {},
+    classes = ''
+  } = formData;
+  const [disabledButton, setDisabledButton] = useState(window.scrollY < offset);
+
+  const generateStyles = function () {
+    let {
+      position,
+      style: {
+        padding,
+        border = {},
+        borderRadius,
+        opacity,
+        width,
+        height,
+        left = 'initial',
+        right = 'initial',
+        bottom = 0,
+        backgroundColor = 'transparent',
+        color = 'inherit'
+      } = {}
+    } = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+    let style = {
+      position: 'fixed',
+      zIndex: disabledButton ? -1 : 5,
+      bottom,
+      width,
+      height,
+      padding,
+      color,
+      borderRadius,
+      backgroundColor,
+      opacity: disabledButton ? 0 : `${opacity}%`,
+      left: position === 'left' ? left : 'initial',
+      right: position === 'right' ? right : 'initial',
+      transition: 'all .3s ease-in-out'
+    };
+    let borderStyles = {};
+    const borderKeys = Object.keys(border);
+    const sides = ['top', 'left', 'right', 'bottom'];
+    const hasBorderMultiple = sides.some(side => borderKeys.includes(side));
+
+    if (hasBorderMultiple) {
+      for (const dir in border) {
+        const dirStyles = border[dir];
+        borderStyles = { ...borderStyles,
+          [`border${(0,_functions__WEBPACK_IMPORTED_MODULE_2__.capitalizeWord)(dir)}`]: Object.values(dirStyles).join(' ')
+        };
+      }
+    } else {
+      borderStyles = {
+        border: Object.values(border).join(' ')
+      };
+    }
+
+    style = { ...style,
+      ...borderStyles
+    };
+    return style;
+  };
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentPosition = window.scrollY;
+      setDisabledButton(currentPosition < offset);
+    }; // To disable button on offset change.
+
+
+    handleScroll(); // To disable button on scroll.
+
+    window.addEventListener('scroll', handleScroll); // Cleanup
+
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [offset]);
+  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(Tooltip, {
+    text: __('Preview', 'wca-scrolltop')
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(Button, {
+    className: classes,
+    style: generateStyles(formData)
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(Icon, {
+    icon: () => {
+      return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("svg", {
+        xmlns: "http://www.w3.org/2000/svg",
+        viewBox: viewBox
+      }, paths.map(el => {
+        return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("path", {
+          fill: "currentColor",
+          d: el
+        });
+      }));
+    }
+  })));
+};
+
+
+
+/***/ }),
+
+/***/ "./src/js/admin/functions.js":
+/*!***********************************!*\
+  !*** ./src/js/admin/functions.js ***!
+  \***********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "capitalizeWord": () => (/* binding */ capitalizeWord)
+/* harmony export */ });
+/**
+ * Capitalize Word
+ * 
+ * @param {string} word
+ */
+const capitalizeWord = word => `${word.charAt(0).toUpperCase()}${word.slice(1)}`;
+
+
+
+/***/ }),
+
 /***/ "@wordpress/element":
 /*!*********************************!*\
   !*** external ["wp","element"] ***!
@@ -116,10 +401,9 @@ var __webpack_exports__ = {};
   !*** ./src/js/admin.js ***!
   \*************************/
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/extends */ "./node_modules/@babel/runtime/helpers/esm/extends.js");
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__);
-
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _admin_Components__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./admin/Components */ "./src/js/admin/Components.js");
 
 
 /**
@@ -130,54 +414,42 @@ __webpack_require__.r(__webpack_exports__);
  */
 const {
   i18n: {
-    __,
-    sprintf
+    __
   },
   hooks: {
     addFilter
   },
   components: {
     Placeholder,
-    ToggleControl,
     Card,
     CardHeader,
     CardBody,
     Spinner,
-    Icon,
-    Dashicon,
     Button,
-    Tooltip,
-    Popover,
     TextControl,
     BaseControl,
     ColorPicker,
     RangeControl,
     DropdownMenu,
     SelectControl,
+    ToggleControl,
     ColorIndicator,
-    FormFileUpload,
-    useBaseControlProps,
     __experimentalHStack: HStack,
     __experimentalNumberControl: NumberControl,
     __experimentalBorderBoxControl: BorderBoxControl
   },
-  blockEditor: {
-    MediaUpload,
-    MediaUploadCheck
-  },
   element: {
-    useState,
-    useEffect,
-    useRef
+    useState
   }
 } = wp;
+
 addFilter('wecodeart.admin.tabs.plugins', 'wecodeart/scrolltop/admin/panel', optionsPanel);
 
 function optionsPanel(panels) {
   return [...panels, {
     name: 'wca-scrolltop',
     title: __('Scroll Top', 'wca-scrolltop'),
-    render: props => (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(Options, props)
+    render: props => (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(Options, props)
   }];
 }
 
@@ -190,14 +462,12 @@ const Options = props => {
   } = props;
 
   if (isRequesting || !settings) {
-    return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(Placeholder, {
-      icon: (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(Spinner, null),
+    return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(Placeholder, {
+      icon: (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(Spinner, null),
       label: __('Loading', 'wca-scrolltop'),
       instructions: __('Please wait, loading settings...', 'wca-scrolltop')
     });
   }
-
-  const [loading, setLoading] = useState(null);
 
   const apiOptions = (_ref => {
     let {
@@ -206,8 +476,8 @@ const Options = props => {
     return scrolltop;
   })(settings);
 
+  const [loading, setLoading] = useState(null);
   const [formData, setFormData] = useState(apiOptions);
-  const [disabledButton, setDisabledButton] = useState(true);
 
   const setStyle = function () {
     let extra = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
@@ -224,190 +494,27 @@ const Options = props => {
     return createNotice('success', __('Settings saved.', 'wca-scrolltop'));
   };
 
-  const capitalizeFirstLetter = word => `${word.charAt(0).toUpperCase()}${word.slice(1)}`;
-
-  const generateStyles = function () {
-    let {
-      position,
-      style: {
-        padding,
-        border = {},
-        borderRadius,
-        opacity,
-        width,
-        height,
-        left = 'initial',
-        right = 'initial',
-        bottom = 0,
-        backgroundColor = 'transparent',
-        color = 'inherit'
-      } = {}
-    } = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-    let style = {
-      zIndex: disabledButton ? -1 : 5,
-      bottom,
-      width,
-      height,
-      padding,
-      color,
-      borderRadius,
-      backgroundColor,
-      opacity: disabledButton ? 0 : `${opacity}%`,
-      left: position === 'left' ? left : 'initial',
-      right: position === 'right' ? right : 'initial',
-      transition: 'all .3s ease-in-out'
-    };
-    let borderStyles = {};
-    const borderKeys = Object.keys(border);
-    const sides = ['top', 'left', 'right', 'bottom'];
-    const hasBorderMultiple = sides.some(side => borderKeys.includes(side));
-
-    if (hasBorderMultiple) {
-      for (const dir in border) {
-        const dirStyles = border[dir];
-        borderStyles = { ...borderStyles,
-          [`border${capitalizeFirstLetter(dir)}`]: Object.values(dirStyles).join(' ')
-        };
-      }
-    } else {
-      borderStyles = {
-        border: Object.values(border).join(' ')
-      };
-    }
-
-    style = { ...style,
-      ...borderStyles
-    };
-    return style;
-  };
-
-  const IconPathsControl = props => {
-    const {
-      baseControlProps,
-      controlProps
-    } = useBaseControlProps(props);
-    const {
-      disabled
-    } = baseControlProps;
-    const items = formData?.icon.paths || ['M15 2a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2zM0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm8.5 9.5a.5.5 0 0 1-1 0V5.707L5.354 7.854a.5.5 0 1 1-.708-.708l3-3a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 5.707V11.5z'];
-
-    const addItem = () => {
-      const updatedItems = [...items, ''];
-      setFormData({ ...formData,
-        icon: { ...formData?.icon,
-          paths: updatedItems
-        }
-      });
-    };
-
-    const removeItem = index => {
-      const updatedItems = [...items];
-      updatedItems.splice(index, 1);
-      setFormData({ ...formData,
-        icon: { ...formData?.icon,
-          paths: updatedItems
-        }
-      });
-    };
-
-    const updateItem = (index, value) => {
-      const updatedItems = [...items];
-      updatedItems[index] = value;
-      setFormData({ ...formData,
-        icon: { ...formData?.icon,
-          paths: updatedItems.filter()
-        }
-      });
-    };
-
-    const [viewBox, setViewBox] = useState(formData?.icon?.viewBox);
-    return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(BaseControl, baseControlProps, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("p", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(HStack, {
-      style: {
-        alignItems: 'stretch'
-      }
-    }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(TextControl, (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({}, controlProps, {
-      disabled: disabled,
-      className: "flex-grow-1",
-      placeholder: __('ViewBox', 'wca-scrolltop'),
-      value: viewBox,
-      onChange: setViewBox
-    })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(Button, {
-      disabled: disabled,
-      style: {
-        height: 'initial'
-      },
-      isSecondary: true,
-      isSmall: true,
-      onClick: () => {
-        setFormData({ ...formData,
-          icon: { ...formData?.icon,
-            viewBox
-          }
-        });
-      },
-      showTooltip: true
-    }, __('Update SVG viewBox', 'wca-scrolltop')))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("p", null, items.map((item, index) => (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("p", {
-      style: {
-        marginTop: 0
-      }
-    }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(HStack, {
-      key: index,
-      style: {
-        alignItems: 'stretch'
-      }
-    }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(TextControl, (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({}, controlProps, {
-      disabled: disabled,
-      className: "flex-grow-1",
-      placeholder: __('Path', 'wca-scrolltop'),
-      value: item,
-      onChange: value => updateItem(index, value)
-    })), index !== 0 && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(Button, {
-      disabled: disabled,
-      style: {
-        height: 'initial'
-      },
-      isDestructive: true,
-      isSmall: true,
-      onClick: () => removeItem(index)
-    }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(Dashicon, {
-      icon: "no"
-    })))))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(Button, {
-      disabled: disabled,
-      isPrimary: true,
-      onClick: addItem
-    }, __('Add Path', 'wca-scrolltop')));
-  };
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const currentPosition = window.scrollY;
-      setDisabledButton(currentPosition < formData?.scroll?.offset);
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-    };
-  }, [formData?.scroll?.offset]);
-  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.Fragment, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", {
+  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "grid",
     style: {
       '--wca--columns': 2
     }
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", {
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "g-col-1"
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(Card, {
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(Card, {
     className: "border shadow-none"
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(CardHeader, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("h5", {
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(CardHeader, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h5", {
     className: "text-uppercase fw-medium m-0"
-  }, __('Design', 'wca-scrolltop'))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(CardBody, {
+  }, __('Design', 'wca-scrolltop'))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(CardBody, {
     style: {
       color: 'rgb(30, 30, 30)'
     }
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("p", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(IconPathsControl, {
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_admin_Components__WEBPACK_IMPORTED_MODULE_1__.CustomIconsControl, {
+    formData,
+    setFormData,
     label: __('Icon', 'wca-scrolltop'),
     help: __('Use simple icons like FontAwesome or Bootstrap. Each icon can have 1 or more path elements.', 'wca-scrolltop')
-  })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("p", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(SelectControl, {
+  })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(SelectControl, {
     label: __('Position', 'wca-scrolltop'),
     value: formData?.position,
     options: [{
@@ -421,7 +528,7 @@ const Options = props => {
       position
     }),
     __nextHasNoMarginBottom: true
-  })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("p", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(HStack, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(NumberControl, {
+  })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(HStack, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(NumberControl, {
     isShiftStepEnabled: true,
     spinControls: "custom",
     label: __('Horizontal Margin', 'wca-scrolltop'),
@@ -431,7 +538,7 @@ const Options = props => {
     onChange: value => setStyle({
       [formData?.position]: parseInt(value)
     })
-  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(NumberControl, {
+  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(NumberControl, {
     isShiftStepEnabled: true,
     spinControls: "custom",
     label: __('Vertical Margin', 'wca-scrolltop'),
@@ -441,7 +548,7 @@ const Options = props => {
     onChange: bottom => setStyle({
       bottom: parseInt(bottom)
     })
-  }))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("p", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(NumberControl, {
+  }))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(NumberControl, {
     isShiftStepEnabled: true,
     spinControls: "custom",
     label: __('Size', 'wca-scrolltop'),
@@ -452,7 +559,7 @@ const Options = props => {
       height: parseInt(size)
     }),
     help: __('In pixels.', 'wca-scrolltop')
-  })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("p", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(NumberControl, {
+  })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(NumberControl, {
     isShiftStepEnabled: true,
     spinControls: "custom",
     label: __('Padding', 'wca-scrolltop'),
@@ -462,7 +569,7 @@ const Options = props => {
       padding: parseInt(padding)
     }),
     help: __('In pixels.', 'wca-scrolltop')
-  })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("p", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(RangeControl, {
+  })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(RangeControl, {
     label: __('Opacity', 'wca-scrolltop'),
     value: formData?.style?.opacity,
     onChange: opacity => setStyle({
@@ -471,15 +578,15 @@ const Options = props => {
     min: 0,
     step: 5,
     max: 100
-  })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("p", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(BaseControl, {
+  })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(BaseControl, {
     label: __('Colors', 'wca-scrolltop')
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(HStack, {
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(HStack, {
     style: {
       justifyContent: 'flex-start'
     }
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(DropdownMenu, {
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(DropdownMenu, {
     label: __('Background Color', 'wca-scrolltop'),
-    icon: (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(ColorIndicator, {
+    icon: (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(ColorIndicator, {
       colorValue: formData?.style?.backgroundColor
     }),
     toggleProps: {
@@ -494,16 +601,16 @@ const Options = props => {
       position: 'bottom',
       noArrow: false
     }
-  }, () => (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(ColorPicker, {
+  }, () => (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(ColorPicker, {
     color: formData?.style?.backgroundColor,
     onChange: backgroundColor => setStyle({
       backgroundColor
     }),
     enableAlpha: true,
     defaultValue: "#000"
-  })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(DropdownMenu, {
+  })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(DropdownMenu, {
     label: __('Icon Color', 'wca-scrolltop'),
-    icon: (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(ColorIndicator, {
+    icon: (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(ColorIndicator, {
       colorValue: formData?.style?.color
     }),
     toggleProps: {
@@ -518,20 +625,20 @@ const Options = props => {
       position: 'bottom',
       noArrow: false
     }
-  }, () => (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(ColorPicker, {
+  }, () => (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(ColorPicker, {
     color: formData?.style?.color,
     onChange: color => setStyle({
       color
     }),
     enableAlpha: true,
     defaultValue: "#000"
-  }))))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("p", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(BorderBoxControl, {
+  }))))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(BorderBoxControl, {
     label: __('Border', 'wca-scrolltop'),
     value: formData?.style?.border,
     onChange: border => setStyle({
       border
     })
-  })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("p", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(RangeControl, {
+  })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(RangeControl, {
     label: __('Radius', 'wca-scrolltop'),
     allowReset: true,
     value: formData?.style?.borderRadius,
@@ -539,17 +646,21 @@ const Options = props => {
       borderRadius
     }),
     min: 0
-  }))))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", {
+  })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(ToggleControl, {
+    label: __('Hover Styles (soon)', 'wca-scrolltop'),
+    value: false,
+    disabled: true
+  }))))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "g-col-1"
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(Card, {
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(Card, {
     className: "border shadow-none position-sticky sticky-top h-100"
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(CardHeader, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("h5", {
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(CardHeader, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h5", {
     className: "text-uppercase fw-medium m-0"
-  }, __('Functionality', 'wca-scrolltop'))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(CardBody, {
+  }, __('Functionality', 'wca-scrolltop'))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(CardBody, {
     style: {
       color: 'rgb(30, 30, 30)'
     }
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("p", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(SelectControl, {
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(SelectControl, {
     label: __('Action', 'wca-scrolltop'),
     value: formData?.action,
     options: [{
@@ -568,7 +679,7 @@ const Options = props => {
         action
       });
     }
-  })), formData?.action === 'element' && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.Fragment, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("p", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(TextControl, {
+  })), formData?.action === 'element' && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(TextControl, {
     label: __('Element selector', 'wca-scrolltop'),
     value: formData?.element?.selector,
     onChange: selector => setFormData({ ...formData,
@@ -577,7 +688,7 @@ const Options = props => {
       }
     }),
     help: __('CSS selector of the element, you are trying to scroll to. Eg: #myDivID, .myDivClass', 'wca-scrolltop')
-  })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("p", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(NumberControl, {
+  })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(NumberControl, {
     isShiftStepEnabled: true,
     spinControls: "custom",
     label: __('Element offset', 'wca-scrolltop'),
@@ -588,7 +699,7 @@ const Options = props => {
       }
     }),
     help: __('Negative value allowed. Use this to precisely set scroll position when you have overlapping elements.', 'wca-scrolltop')
-  }))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("p", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(NumberControl, {
+  }))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(NumberControl, {
     isShiftStepEnabled: true,
     spinControls: "custom",
     label: __('Scroll offset', 'wca-scrolltop'),
@@ -600,7 +711,7 @@ const Options = props => {
         offset: parseInt(offset)
       }
     })
-  })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("p", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(NumberControl, {
+  })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(NumberControl, {
     isShiftStepEnabled: true,
     spinControls: "custom",
     label: __('Scroll duration', 'wca-scrolltop'),
@@ -613,39 +724,24 @@ const Options = props => {
         duration: parseInt(duration)
       }
     })
-  })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("p", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(TextControl, {
+  })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(TextControl, {
     label: __('Class(es)', 'wca-scrolltop'),
     value: formData?.classes,
     onChange: classes => setFormData({ ...formData,
       classes
     }),
     help: __('You can use utilities like: d-none, d-md-block; and so on.', 'wca-scrolltop')
-  })))))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(Tooltip, {
-    text: __('Preview', 'wca-scrolltop')
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(Button, {
-    className: `position-fixed${formData?.classes ? ' ' + formData.classes : ''}`,
-    style: generateStyles(formData)
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(Icon, {
-    icon: () => {
-      return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("svg", {
-        xmlns: "http://www.w3.org/2000/svg",
-        viewBox: formData?.icon?.viewBox || '0 0 16 16'
-      }, formData?.icon?.paths.map(el => {
-        return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("path", {
-          fill: "currentColor",
-          d: el
-        });
-      }));
-    }
-  }))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("hr", {
+  })))))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_admin_Components__WEBPACK_IMPORTED_MODULE_1__.PreviewButton, {
+    formData
+  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("hr", {
     style: {
       margin: '20px 0'
     }
-  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(Button, {
+  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(Button, {
     className: "button",
     isPrimary: true,
     isLarge: true,
-    icon: loading && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(Spinner, null),
+    icon: loading && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(Spinner, null),
     onClick: () => {
       setLoading(true);
       saveSettings({
