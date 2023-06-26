@@ -1,6 +1,6 @@
 # WCA: Scroll Top
 
-The **WCA: Scroll Top** is a WordPress plugin designed to extend the functionality of your theme and provide seamless integration between the theme and the Scroll Top plugin. It enhances the capabilities of your theme by providing additional features and options for contact forms created using Scroll Top.
+The **WCA: Scroll Top** is a WordPress plugin designed to extend the functionality of WeCodeArt theme and provide your site with a Scroll Top button.
 
 ## Features
 
