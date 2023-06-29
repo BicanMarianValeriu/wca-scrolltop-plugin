@@ -201,7 +201,7 @@ class Scrolltop implements Integration {
 		$frontend = new Scrolltop\Frontend( $this->get_plugin_name(), $this->get_version(), $this->get_config() );
 
 		// Load Hooks
-		$this->loader->add_action( 'wp_enqueue_scripts', 	$frontend, 'assets', 20 );
+		$this->loader->add_action( 'wp_enqueue_scripts', 	$frontend, 'assets', 0 );
 		$this->loader->add_action( 'wp_footer', 			$frontend, 'markup', 0 );
 	}
 
