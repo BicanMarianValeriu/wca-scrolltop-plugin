@@ -15,7 +15,7 @@
  * Plugin Name:       WCA: Scroll Top
  * Plugin URI:        https://github.com/BicanMarianValeriu/wca-scrolltop
  * Description:       Add scroll to top button in WeCodeArt themes.
- * Version:           1.0.0
+ * Version:           1.0.1
  * Author:            Bican Marian Valeriu
  * Author URI:        https://www.wecodeart.com/about/
  * License:           GPL-2.0+
