@@ -146,30 +146,36 @@ class Frontend {
 	 * Markup
 	 *
 	 * @since 	1.0.0
-	 * @version	1.0.0
+	 * @version	1.0.2
 	 *
 	 * @return 	void
 	 */
 	public function markup() {
+		$scrollOffset	= get_prop( $this->config, [ 'scroll', 'offset' ], 0 );
+		$scrollDuration	= get_prop( $this->config, [ 'scroll', 'duration' ], 100 );
+		$elSelector		= get_prop( $this->config, [ 'element', 'selector' ], 'html' );
+		$elOffset		= get_prop( $this->config, [ 'element', 'offset' ], 0 );
+
 		wecodeart( 'markup' )->SVG::add( 'scrolltop', get_prop( $this->config, 'icon' ) );
 
 		$classes = wp_parse_args(
 			explode( ' ', get_prop( $this->config, 'classes', '' ) ),
 			[ 'wp-element-button', 'wp-element-button--scrolltop' ]
 		);
+
+		$inline_css = 'transition:var(--wp--transition);';
+		$inline_css .= 'opacity:' . ( $scrollOffset === 0 ? '1' : '0' ) . ';';
+		$inline_css .= 'pointer-events:' . ( $scrollOffset === 0 ? 'all' : 'none' );
 		
 		wecodeart_input( 'button', [
 			'label' => wecodeart( 'markup' )->SVG::compile( 'scrolltop' ),
 			'attrs' => [
-				'type'	=> 'button',
-				'class' => join( ' ', array_filter( $classes ) ), // Escaped in the WeCodeArt API
+				'class'			=> join( ' ', array_filter( $classes ) ), // Escaped in the WeCodeArt API
+				'type'			=> 'button',
+				'style'			=> $inline_css,
+				'aria-label' 	=> esc_html__( 'Scroll to top', 'wca-scrolltop' ),
 			]
 		] );
-
-		$scrollOffset	= get_prop( $this->config, [ 'scroll', 'offset' ] );
-		$scrollDuration	= get_prop( $this->config, [ 'scroll', 'duration' ] );
-		$elSelector		= get_prop( $this->config, [ 'element', 'selector' ], 'html' );
-		$elOffset		= get_prop( $this->config, [ 'element', 'offset' ], 0 );
 
 		$inline_js = <<<JS
 			const ScrollTop = {
@@ -183,20 +189,20 @@ class Frontend {
 				elapsedTime: 0,
 
 				init: function() {
-					this.fade();
-
-					window.addEventListener('scroll', () => {
+					const scrollListener = () => {
 						if( window.scrollY >= $scrollOffset ) {
 							this.fade(true);
 							return;
 						}
 						
 						this.fade();
-					} );
+					};
 
-					this.el.addEventListener('click', () => {
-						this.animate((this.target ? this.target.offsetTop : 0) - $elOffset, $scrollDuration);
-					}, true);
+					scrollListener();
+
+					window.addEventListener('scroll', scrollListener);
+
+					this.el.addEventListener('click', () => this.animate((this.target ? this.target.offsetTop : 0) - $elOffset, $scrollDuration), true);
 				},
 
 				animate: function(to, duration) {
@@ -228,7 +234,6 @@ class Frontend {
 
 				fade: function(dir) {
 					this.el.classList[dir ? 'add' : 'remove']('wp-element-button--appear');
-					this.el.style.transition = 'var(--wp--transition)';
 					this.el.style.opacity = dir ? 'var(--wp--opacity)' : 0;
 					this.el.style.pointerEvents = dir ? 'all' : 'none';
 				}
