@@ -25,7 +25,7 @@ const {
         RangeControl,
         DropdownMenu,
         SelectControl,
-        ToggleControl,
+        // ToggleControl,
         ColorIndicator,
         __experimentalHStack: HStack,
         __experimentalNumberControl: NumberControl,
@@ -228,13 +228,6 @@ const Options = (props) => {
                                     min={0}
                                 />
                             </p>
-                            <p>
-                                <ToggleControl
-                                    label={__('Hover Styles (soon)', 'wca-scrolltop')}
-                                    value={false}
-                                    disabled={true}
-                                />
-                            </p>
                         </CardBody>
                     </Card>
                 </div>
@@ -313,7 +306,7 @@ const Options = (props) => {
                                     label={__('Scroll duration', 'wca-scrolltop')}
                                     help={__('Window scroll duration in milliseconds when the button is pressed.', 'wca-scrolltop')}
                                     min={100}
-                                    disabled="disabled"
+                                    step={10}
                                     value={formData?.scroll?.duration}
                                     onChange={duration => setFormData({
                                         ...formData, scroll: {

@@ -363,8 +363,13 @@ class Admin {
 				'padding'	=> 3,
 				'opacity'	=> 100,
 				'color'		=> '#ffffff',
-				'borderRadius'		=> 7,
 				'backgroundColor'	=> '#0a86ff',
+				'borderRadius' 		=> 7,
+				'border'	=> [
+					'color'	=> '#ffffff',
+					'style'	=> 'solid',
+					'width'	=> '1px',
+				],
 			]
 		];
 	}
