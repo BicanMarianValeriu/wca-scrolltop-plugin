@@ -126,10 +126,14 @@ class Frontend {
 		$rules['spacing']['padding'] = get_prop( $styles, 'padding', '0' ) . 'px';
 
 		// SVG Fix
-		\WP_Style_Engine::store_css_rule( self::CONTEXT, '.wp-element-button--scrolltop svg', [ 'height' => 'initial' ] );
+		\WP_Style_Engine::store_css_rule( self::CONTEXT, '.wp-element-button--scrolltop svg', [
+			'height' => 'initial'
+		] );
 
 		// Hover
-		\WP_Style_Engine::store_css_rule( self::CONTEXT, '.wp-element-button--scrolltop:is(:hover,:active,:focus)', [ '--wp--opacity' => 1 ] );
+		\WP_Style_Engine::store_css_rule( self::CONTEXT, '.wp-element-button--scrolltop:is(:hover,:active,:focus)', [
+			'--wp--opacity' => 1
+		] );
 
 		// Load Styles
 		wp_style_engine_get_styles( $rules, [
@@ -162,44 +166,75 @@ class Frontend {
 			]
 		] );
 
-		$offset 		= get_prop( $this->config, [ 'scroll', 'offset' ] );
-		$selector 		= get_prop( $this->config, [ 'element', 'selector' ], 'html' );
-		$scrollOffset 	= get_prop( $this->config, [ 'element', 'offset' ], 0 );
+		$scrollOffset	= get_prop( $this->config, [ 'scroll', 'offset' ] );
+		$scrollDuration	= get_prop( $this->config, [ 'scroll', 'duration' ] );
+		$elSelector		= get_prop( $this->config, [ 'element', 'selector' ], 'html' );
+		$elOffset		= get_prop( $this->config, [ 'element', 'offset' ], 0 );
 
 		$inline_js = <<<JS
-			var scrollTopEl = document.querySelector('.wp-element-button--scrolltop');
-			var targetElement = document.querySelector('$selector');
+			const ScrollTop = {
+				el: document.querySelector('.wp-element-button--scrolltop'),
+				target: document.querySelector('$elSelector'),
+				to: 0,
+				fps: 60,
+				start: 0,
+				change: 0,
+				duration: 0,
+				elapsedTime: 0,
 
-			function fadeOut() {
-				scrollTopEl.classList.remove('wp-element-button--appear');
-				scrollTopEl.style.opacity = 0;
-				scrollTopEl.style.pointerEvents = 'none';
-				scrollTopEl.style.transition = 'var(--wp--transition)';
-			}
+				init: function() {
+					this.fade();
 
-			function fadeIn() {
-				scrollTopEl.classList.add('wp-element-button--appear');
-				scrollTopEl.style.opacity = 'var(--wp--opacity)';
-				scrollTopEl.style.pointerEvents = 'all';
-			}
+					window.addEventListener('scroll', () => {
+						if( window.scrollY >= $scrollOffset ) {
+							this.fade(true);
+							return;
+						}
+						
+						this.fade();
+					} );
 
-			fadeOut();
+					this.el.addEventListener('click', () => {
+						this.animate((this.target ? this.target.offsetTop : 0) - $elOffset, $scrollDuration);
+					}, true);
+				},
 
-			window.addEventListener('scroll', function() {
-				if( window.scrollY >= $offset ) {
-					fadeIn();
-					return;
+				animate: function(to, duration) {
+					this.to = to;
+					this.duration = duration;
+					this.start = document.documentElement.scrollTop || document.body.scrollTop;
+					this.change = this.to - this.start;
+					this.startTime = performance.now();
+
+					return window.requestAnimationFrame(this.loop.bind(this));
+				},
+
+				loop: function(timestamp) {
+					const elapsedTime = timestamp - this.startTime;
+					const position = this.easing(elapsedTime, this.start, this.change, this.duration);
+
+					document.documentElement.scrollTop = position;
+					document.body.scrollTop = position;
+
+					if (elapsedTime < this.duration) {
+						window.requestAnimationFrame(this.loop.bind(this));
+					}
+				},
+
+				easing: function(currentTime, start, change, duration) {
+					currentTime /= duration;
+					return -change * currentTime * (currentTime - 2) + start;
+				},
+
+				fade: function(dir) {
+					this.el.classList[dir ? 'add' : 'remove']('wp-element-button--appear');
+					this.el.style.transition = 'var(--wp--transition)';
+					this.el.style.opacity = dir ? 'var(--wp--opacity)' : 0;
+					this.el.style.pointerEvents = dir ? 'all' : 'none';
 				}
-				
-				fadeOut();
-			} );
+			};
 
-			scrollTopEl.addEventListener('click', function() {
-				window.scrollTo({
-					top: (targetElement ? targetElement.offsetTop : 0) - $scrollOffset,
-					behavior: 'smooth'
-				});
-			}, true);
+			ScrollTop.init();
 		JS;
 		
 		printf( '<script id="wecodeart-scrolltop-js">%s</script>', $inline_js );

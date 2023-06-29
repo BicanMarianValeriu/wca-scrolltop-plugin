@@ -162,7 +162,10 @@ class Scrolltop implements Integration {
 	 * @access   private
 	 */
 	private function set_config() {
-		$this->config = wp_parse_args( wecodeart_option( 'scrolltop' ), Scrolltop\Admin::get_defaults() );
+		$this->config = apply_filters(
+			'wecodeart/filter/scrolltop/config',
+			wp_parse_args( wecodeart_option( 'scrolltop' ), Scrolltop\Admin::get_defaults() )
+		);
 	}
 
 	/**

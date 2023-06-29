@@ -94,7 +94,7 @@ class Admin {
 					<p>%2$s</p>
 					<p><a href="%3$s" class="button button-primary">%4$s</a></p>
 				</div>',
-				esc_html__( 'Awesome, WCA: ScrollTop extension is activated!', 'wca-scrolltop' ),
+				esc_html__( 'Awesome, WCA: Scroll Top extension is activated!', 'wca-scrolltop' ),
 				esc_html__( 'Go to Theme Options in order to setup your preferences.', 'wca-scrolltop' ),
 				esc_url( admin_url( '/themes.php?page=wecodeart&tab=plugins#wca-scrolltop' ) ),
 				esc_html__( 'Show me the options!', 'wca-scrolltop' )
@@ -363,8 +363,13 @@ class Admin {
 				'padding'	=> 3,
 				'opacity'	=> 100,
 				'color'		=> '#ffffff',
-				'borderRadius'		=> 7,
 				'backgroundColor'	=> '#0a86ff',
+				'borderRadius' 		=> 7,
+				'border'	=> [
+					'color'	=> '#ffffff',
+					'style'	=> 'solid',
+					'width'	=> '1px',
+				],
 			]
 		];
 	}
