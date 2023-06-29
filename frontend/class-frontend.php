@@ -146,7 +146,7 @@ class Frontend {
 	 * Markup
 	 *
 	 * @since 	1.0.0
-	 * @version	1.0.0
+	 * @version	1.0.2
 	 *
 	 * @return 	void
 	 */
@@ -161,8 +161,9 @@ class Frontend {
 		wecodeart_input( 'button', [
 			'label' => wecodeart( 'markup' )->SVG::compile( 'scrolltop' ),
 			'attrs' => [
-				'type'	=> 'button',
-				'class' => join( ' ', array_filter( $classes ) ), // Escaped in the WeCodeArt API
+				'class'			=> join( ' ', array_filter( $classes ) ), // Escaped in the WeCodeArt API
+				'type'			=> 'button',
+				'aria-label' 	=> esc_html__( 'Scroll to top', 'wca-scrolltop' ),
 			]
 		] );
 
