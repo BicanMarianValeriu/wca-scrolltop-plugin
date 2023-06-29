@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: WCA: Scroll Top\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-06-26 19:16+0000\n"
+"POT-Creation-Date: 2023-06-29 06:05+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: \n"
@@ -54,6 +54,10 @@ msgstr ""
 
 #: admin/class-admin.php:247
 msgid "release page"
+msgstr ""
+
+#: frontend/class-frontend.php:176
+msgid "Scroll to top"
 msgstr ""
 
 #: admin/class-admin.php:292
