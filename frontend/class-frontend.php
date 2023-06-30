@@ -146,7 +146,7 @@ class Frontend {
 	 * Markup
 	 *
 	 * @since 	1.0.0
-	 * @version	1.0.2
+	 * @version	1.0.4
 	 *
 	 * @return 	void
 	 */
@@ -191,18 +191,19 @@ class Frontend {
 				init: function() {
 					const scrollListener = () => {
 						if( window.scrollY >= $scrollOffset ) {
-							this.fade(true);
-							return;
+							return this.fade(true);
 						}
 						
 						this.fade();
 					};
 
+					const clickListener = () => this.animate((this.target ? this.target.offsetTop : 0) - $elOffset, $scrollDuration);
+
 					scrollListener();
 
 					window.addEventListener('scroll', scrollListener);
 
-					this.el.addEventListener('click', () => this.animate((this.target ? this.target.offsetTop : 0) - $elOffset, $scrollDuration), true);
+					this.el.addEventListener('click', clickListener, true);
 				},
 
 				animate: function(to, duration) {
