@@ -33,7 +33,10 @@ const {
     },
     element: {
         useState,
-    }
+    },
+    blockEditor: {
+        useSetting
+    },
 } = wp;
 
 import { CustomIconsControl, PreviewButton } from './admin/Components';
@@ -73,6 +76,8 @@ const Options = (props) => {
 
         return createNotice('success', __('Settings saved.', 'wca-scrolltop'));
     };
+
+    const colors = useSetting('color.palette');
 
     return (
         <>
@@ -214,6 +219,7 @@ const Options = (props) => {
                             </p>
                             <p>
                                 <BorderBoxControl
+                                    colors={colors}
                                     label={__('Border', 'wca-scrolltop')}
                                     value={formData?.style?.border}
                                     onChange={border => setStyle({ border })}

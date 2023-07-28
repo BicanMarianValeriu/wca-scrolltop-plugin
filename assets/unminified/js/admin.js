@@ -492,6 +492,9 @@ const {
   },
   element: {
     useState
+  },
+  blockEditor: {
+    useSetting
   }
 } = wp;
 
@@ -546,6 +549,7 @@ const Options = props => {
     return createNotice('success', __('Settings saved.', 'wca-scrolltop'));
   };
 
+  const colors = useSetting('color.palette');
   return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "grid",
     style: {
@@ -685,6 +689,7 @@ const Options = props => {
     enableAlpha: true,
     defaultValue: "#000"
   }))))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(BorderBoxControl, {
+    colors: colors,
     label: __('Border', 'wca-scrolltop'),
     value: formData?.style?.border,
     onChange: border => setStyle({
