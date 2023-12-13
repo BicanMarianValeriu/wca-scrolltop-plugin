@@ -189,14 +189,7 @@ class Frontend {
 				elapsedTime: 0,
 
 				init: function() {
-					const scrollListener = () => {
-						if( window.scrollY >= $scrollOffset ) {
-							return this.fade(true);
-						}
-						
-						this.fade();
-					};
-
+					const scrollListener = () => window.scrollY >= $scrollOffset ? this.fade(true) : this.fade();
 					const clickListener = () => this.animate((this.target ? this.target.offsetTop : 0) - $elOffset, $scrollDuration);
 
 					scrollListener();
